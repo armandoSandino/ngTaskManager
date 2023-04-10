@@ -1,0 +1,147 @@
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <!-- Modal Header -->
+  <div class="modal-header contentHeaderCustom">
+    <h5 class="modal-title" id="myLargeModalLabel">
+      {{ action != 'Edit' ? 'Add new task' : 'Edit task' }}
+    </h5>
+    <div id='actionClose' class="close" aria-label="Close" (click)="closingForm($event); d('Cross click');">
+      <span aria-hidden="true">&times;</span>
+    </div>
+  </div>
+  <!--End header modal -->
+
+  <!--Modal Body-->
+  <div class="modal-body" aria-hidden="true" taskForm style="max-height: auto; overflow: auto;">
+    <form [formGroup]='taskForm'>
+
+      <!--Init Dates-->
+      <div class="row">
+        <!-- Start Date-->
+        <div class="form-group col-sm-6">
+          <label>Start Date<strong class="messageRequired">*</strong> </label>
+          <input type="date" formControlName='startDate' autocomplete=off id="startDate" class="form-control" />
+          <div
+            *ngIf="taskForm.get('startDate')?.invalid && (taskForm.get('startDate')?.dirty || taskForm.get('startDate')?.touched)">
+            <div class="messageRequired" *ngIf="taskForm.get('startDate')?.hasError('required')">
+              Start Date is required
+            </div>
+          </div>
+        </div>
+        <!-- End startDate-->
+
+        <!-- EndDate-->
+        <div class="form-group col-sm-6">
+          <label>End Date<strong class="messageRequired">*</strong> </label>
+          <input type="date" formControlName='endDate' autocomplete=off id="endDate" class="form-control" />
+          <div
+            *ngIf="taskForm.get('endDate')?.invalid && (taskForm.get('endDate')?.dirty || taskForm.get('endDate')?.touched)">
+            <div class="messageRequired" *ngIf="taskForm.get('endDate')?.hasError('required')">
+              End Date is required
+            </div>
+          </div>
+        </div>
+        <!-- EndDate-->
+      </div>
+      <!-- End Dates -->
+
+
+      <div class="row">
+        <!-- State -->
+        <div class="form-group col-sm-6">
+          <label>State <strong class="messageRequired">*</strong> </label>
+          <ng-select class="" placeholder="Select the State" formControlName='State' [items]="stateList"
+            bindLabel="name" autofocus bindValue="id" [(ngModel)]="selectedStateId"
+            (change)='onListenerStateChange( $event )'>
+          </ng-select>
+          <div
+            *ngIf="taskForm.get('State')?.invalid && (taskForm.get('State')?.dirty || taskForm.get('State')?.touched)">
+            <div class="messageRequired" *ngIf="taskForm.get('State')?.hasError('required')">
+              State is required
+            </div>
+          </div>
+        </div>
+        <!-- End State -->
+
+        <!-- Priority -->
+        <div class="form-group col-sm-6">
+          <label>Priority <strong class="messageRequired">*</strong> </label>
+          <ng-select class="" placeholder="Select the Priority" formControlName='Priority' [items]="priorityList"
+            bindLabel="name" autofocus bindValue="id" [(ngModel)]="selectedPriorityId"
+            (change)='onListenerPriorityChange( $event )'>
+          </ng-select>
+          <div
+            *ngIf="taskForm.get('Priority')?.invalid && (taskForm.get('Priority')?.dirty || taskForm.get('Priority')?.touched)">
+            <div class="messageRequired" *ngIf="taskForm.get('Priority')?.hasError('required')">
+              Priority is required
+            </div>
+          </div>
+        </div>
+        <!-- End Priority -->
+      </div>
+      <!-- End Row -->
+
+      <!-- Description -->
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label>Description <strong class="messageRequired">*</strong> </label>
+          <textarea type="text" focus="true" formControlName="Description" placeholder="Enter the description"
+            class="form-control"></textarea>
+          <div
+            *ngIf="taskForm.get('Description')?.invalid && (taskForm.get('Description')?.dirty || taskForm.get('Description')?.touched)">
+            <div *ngIf="taskForm.get('Description')?.hasError('required')" class="messageRequired form-control-feeback">
+              Description is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End Description -->
+
+      <!-- Collaborator -->
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label>Collaborator <strong class="messageRequired">*</strong> </label>
+          <ng-select class="" placeholder=" Select the collaborator" formControlName='Collaborator'
+            [items]="collaboratorsList" bindLabel="name" autofocus bindValue="id" [(ngModel)]="selectedCollaboratorId"
+            (change)='onListenerCollaboratorChange( $event )'>
+          </ng-select>
+          <div
+            *ngIf="taskForm.get('Collaborator')?.invalid && (taskForm.get('Collaborator')?.dirty || taskForm.get('Collaborator')?.touched)">
+            <div class="messageRequired" *ngIf="taskForm.get('Collaborator')?.hasError('required')">
+              Collaborator is required
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- End Collaborator -->
+
+      <!-- Notes -->
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label>Notes </label>
+          <textarea type="text" focus="true" formControlName="Notes" placeholder="Enter the notes"
+            class="form-control"></textarea>
+        </div>
+      </div>
+      <!--End Notes -->
+
+    </form>
+  </div>
+  <!-- End Modal Body-->
+
+  <!-- Modal footer -->
+  <div class="modal-footer contentFooterCustom" [ngStyle]="{'border-radius': '0 none'}">
+    <button type="button" class="btn btn-radius  bg-dark" [ngStyle]="{'color': 'white'}"
+      (click)="closingForm($event); d('Cross click');">
+      <i class="fa fa fa-times"></i>
+      Cancel
+    </button>
+
+    <button id="btnActionSave" class="btn btn-radius btn-primary" [disabled]="taskForm.invalid " (click)="save($event)">
+      <i class="fa fa-save"></i>
+      Save
+    </button>
+  </div>
+  <!--End modal footer -->
+</ng-template>

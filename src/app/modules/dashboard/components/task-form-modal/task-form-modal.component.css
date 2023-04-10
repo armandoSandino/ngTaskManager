@@ -1,0 +1,28 @@
+.contentHeaderCustom {
+  color: white;
+  background-color: #007bff !important;
+  border-color: whitesmoke;
+  border-radius: 0px 0px;
+}
+
+.messageRequired {
+  color: red;
+  font-size: 13px;
+  padding: 0.1em;
+}
+
+.modal-body input:hover,
+.modal-body input:focus {
+  border-color: #007bff;
+}
+
+.close:hover,
+.close:focus {
+  cursor: pointer;
+}
+
+.contentFooterCustom {
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top: 1px solid #007bff;
+}
