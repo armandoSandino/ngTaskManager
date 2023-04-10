@@ -10,6 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { InterceptorService } from './core/services/http/interceptor/interceptor.service';
 import { CommonModule } from '@angular/common';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -26,6 +27,8 @@ import { CommonModule } from '@angular/common';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    //=> Basic usage (forRoot can also take options, see the wiki)
+    SweetAlert2Module.forRoot()
   ],
   exports: [],
   schemas: [
