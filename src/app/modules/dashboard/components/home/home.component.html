@@ -1,0 +1,201 @@
+<h2 class="mb-2">Manage <span class="">Tasks</span></h2>
+<br>
+<section class="col-12 mb-2">
+  <article class="text-right">
+    <button class="btn btn-primary" (click)="manageModal('open','task','add')" ngbTooltip="Add project">
+      Add Task
+    </button>
+  </article>
+</section>
+
+<div class="container" style="border: 2px solid red">
+  <form [formGroup]="formFilters" class="" id="formFilters">
+
+    <!--Init row-->
+    <div class="row">
+      <!-- Start Date-->
+      <div class="form-group col-sm-4">
+        <label>Start Date<strong class="messageRequired">*</strong> </label>
+        <input type="date" formControlName='startDate' autocomplete=off id="startDate" class="form-control" />
+        <div
+          *ngIf="formFilters.get('startDate')?.invalid && (formFilters.get('startDate')?.dirty || formFilters.get('startDate')?.touched)">
+          <div class="messageRequired" *ngIf="formFilters.get('startDate')?.hasError('required')">
+            Start Date is required
+          </div>
+        </div>
+      </div>
+      <!-- End startDate-->
+
+      <!-- EndDate-->
+      <div class="form-group col-sm-4">
+        <label>End Date<strong class="messageRequired">*</strong> </label>
+        <input type="date" formControlName='endDate' autocomplete=off id="endDate" class="form-control" />
+        <div
+          *ngIf="formFilters.get('endDate')?.invalid && (formFilters.get('endDate')?.dirty || formFilters.get('endDate')?.touched)">
+          <div class="messageRequired" *ngIf="formFilters.get('endDate')?.hasError('required')">
+            End Date is required
+          </div>
+        </div>
+      </div>
+      <!-- EndDate-->
+
+      <!-- Collaborator -->
+      <div class="form-group col-sm-4">
+        <label>Collaborator <strong class="messageRequired">*</strong> </label>
+        <ng-select class="" placeholder=" Select the collaborator" formControlName='Collaborator'
+          [items]="collaboratorsList" bindLabel="name" autofocus bindValue="id" [(ngModel)]="selectedCollaboratorId"
+          (change)='onListenerCollaboratorChange( $event )'>
+        </ng-select>
+        <div
+          *ngIf="formFilters.get('Collaborator')?.invalid && (formFilters.get('Collaborator')?.dirty || formFilters.get('Collaborator')?.touched)">
+          <div class="messageRequired" *ngIf="formFilters.get('Collaborator')?.hasError('required')">
+            Collaborator is required
+          </div>
+        </div>
+      </div>
+      <!-- End Collaborator -->
+    </div>
+    <!-- End row -->
+
+    <!-- Row -->
+    <div class="row">
+      <!-- State -->
+      <div class="form-group col-sm-4">
+        <label>State <strong class="messageRequired">*</strong> </label>
+        <ng-select class="" placeholder="Select the State" formControlName='State' [items]="stateList" bindLabel="name"
+          autofocus bindValue="id" [(ngModel)]="selectedStateId" (change)='onListenerStateChange( $event )'>
+        </ng-select>
+        <div
+          *ngIf="formFilters.get('State')?.invalid && (formFilters.get('State')?.dirty || formFilters.get('State')?.touched)">
+          <div class="messageRequired" *ngIf="formFilters.get('State')?.hasError('required')">
+            State is required
+          </div>
+        </div>
+      </div>
+      <!-- End State -->
+      <!-- Priority -->
+      <div class="form-group col-sm-4">
+        <label>Priority <strong class="messageRequired">*</strong> </label>
+        <ng-select class="" placeholder="Select the Priority" formControlName='Priority' [items]="priorityList"
+          bindLabel="name" autofocus bindValue="id" [(ngModel)]="selectedPriorityId"
+          (change)='onListenerPriorityChange( $event )'>
+        </ng-select>
+        <div
+          *ngIf="formFilters.get('Priority')?.invalid && (formFilters.get('Priority')?.dirty || formFilters.get('Priority')?.touched)">
+          <div class="messageRequired" *ngIf="formFilters.get('Priority')?.hasError('required')">
+            Priority is required
+          </div>
+        </div>
+      </div>
+      <!-- End Priority -->
+
+      <!-- Buttons -->
+      <div class="form-group col-md-4 p-4">
+        <button type="button" class="btn btn-lg btn-primary m-2" id="" ngbTooltip="Filter task" [ngStyle]="{}"
+          (click)="filterRecords($event)">
+          Filter
+        </button>
+        <button class="btn btn-lg btn-primary m-2" id="" ngbTooltip="Show All"
+        (click)="showAllTask($event)">
+          All
+        </button>
+      </div>
+      <!-- En buttons -->
+
+    </div>
+    <!--End Row -->
+  </form>
+</div>
+
+
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <caption>List of task {{ this.tasksList.length}}</caption>
+    <thead>
+      <tr>
+        <th scope="col">
+          Action
+        </th>
+        <th scope="col">Id</th>
+        <th scope="col">Description</th>
+        <th scope="col">Collaborator</th>
+        <th scope="col">State</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="this.tasksList.length===0">
+        <td colspan="11">
+          <p class="text-center p-2">
+            No tasks to display
+          </p>
+        </td>
+      </tr>
+      <tr *ngFor="let task of this.tasksList; let i = index">
+        <!-- Action-->
+        <td>
+          <div class="row">
+            <div class="col-10 col-md-3 mt-2">
+              <i (click)="selectedUpdateTask( task )" class="fa fa-pencil" placement="left" ngbTooltip="Edit task"
+                [ngStyle]="{'color': 'black','font-size':'18px','cursor': 'pointer'}">
+              </i>
+            </div>
+            <!--<div class="col-10 col-md-3">
+             <i
+             (click)="true"
+             class="fa fa-clone"
+             placement="left"
+             ngbTooltip=''
+             [ngStyle]="{'color': 'black','font-size':'18px','cursor':'pointer'}"
+             >
+             </i>
+            </div>-->
+            <div class="col-10 col-md-3 mt-2">
+              <i (click)="selectedDeleteTask( task )" class="fa fa-trash" placement="right" ngbTooltip='Delete task'
+                [ngStyle]="{'color': 'red','font-size':'18px','cursor':'pointer'}">
+              </i>
+            </div>
+          </div>
+        </td>
+        <!-- end action -->
+        <td>
+          {{ task?.id}}
+        </td>
+        <td>
+          {{ task?.description }}
+        </td>
+        <td>
+          {{ task?.collaborator ? task?.collaborator?.name +' '+task?.collaborator?.lastName : '---'}}
+        </td>
+        <td>
+          {{ task?.state }}
+        </td>
+        <td>
+          {{task?.priority}}
+        </td>
+        <td>
+          {{task?.startDate | date }}
+        </td>
+        <td>
+          {{task?.endDate | date }}
+        </td>
+        <td>
+          {{task?.notes ? task?.notes : '---'}}
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+<app-task-form-modal #taskManageFormModal (listenerAction)='onListenerAction($event)'>
+
+</app-task-form-modal>
+
+

@@ -1,0 +1,16 @@
+.customTh {
+  width: 20% !important;
+}
+
+.customTruncate {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messageRequired {
+  color: red;
+  font-size: 13px;
+  padding: 0.1em;
+}
